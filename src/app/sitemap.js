@@ -1,6 +1,9 @@
 export default async function sitemap() {
-  const routes = ["", "/about", "/pricing", "/blog"].map((route) => ({
-    url: `${process.env.SITE_URL}${route}`,
+  const siteUrl = process.env.SITE_URL || (process.env.VERCEL_URL
+    ? `https://${process.env.VERCEL_URL}`
+    : "http://localhost:3000");
+  const routes = [""].map((route) => ({
+    url: `${siteUrl}${route}`,
     lastModified: new Date().toISOString(),
   }));
 

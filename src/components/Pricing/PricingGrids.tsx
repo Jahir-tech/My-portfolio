@@ -1,6 +1,6 @@
 import SectionTitle from "../Common/SectionTitle";
 import SinglePricing from "./SInglePricing";
-import { pricingData } from "../../../stripe/pricingData";
+import { pricingData } from "./pricingData";
 
 const PricingGrids = () => {
   return (
@@ -14,7 +14,7 @@ const PricingGrids = () => {
         <div className="grid grid-cols-1 gap-7.5 sm:grid-cols-2 lg:grid-cols-3">
           {pricingData &&
             pricingData.map((price, key) => (
-              <SinglePricing price={price} key={key} />
+              <SinglePricing price={price} key={price.nickname} />
             ))}
         </div>
       </div>

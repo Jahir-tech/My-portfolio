@@ -1,35 +1,9 @@
 "use client";
 
-import axios from "axios";
 import Image from "next/image";
 import OfferItem from "./OfferItem";
-import { integrations, messages } from "../../../integrations.config";
-import toast from "react-hot-toast";
 
 const SinglePricing = ({ price }: any) => {
-  // POST request
-  const handleSubscription = async (e: any) => {
-    e.preventDefault();
-
-    if (!integrations?.isStripeEnabled) {
-      toast.error(messages.stripe);
-      return;
-    }
-
-    const { data } = await axios.post(
-      "/api/payment",
-      {
-        priceId: price.id,
-      },
-      {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      },
-    );
-    window.location.assign(data);
-  };
-
   return (
     <div className="wow fadeInUp pricing-item-border relative z-20 overflow-hidden rounded-3xl bg-dark px-8 pb-10 pt-12.5 xl:px-10">
       <span className="absolute right-9 top-9">
@@ -101,12 +75,12 @@ const SinglePricing = ({ price }: any) => {
         </ul>
       )}
 
-      <button
-        aria-label="Get the plan button"
-        onClick={handleSubscription}
+      <a
+        href="/#support"
+        aria-label="Contact us about this plan"
         className="pricing-button-gradient relative mt-11 flex w-full items-center justify-center gap-1.5 rounded-lg p-3 font-medium text-white transition-all duration-300 ease-in-out hover:shadow-button"
       >
-        Get the plan
+        Contact us
         <svg
           width="17"
           height="16"
@@ -119,7 +93,7 @@ const SinglePricing = ({ price }: any) => {
             fill="white"
           />
         </svg>
-      </button>
+      </a>
 
       <p className="mt-4 text-center text-sm">No extra hidden charge</p>
 
