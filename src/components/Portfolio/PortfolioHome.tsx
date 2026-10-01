@@ -4,6 +4,7 @@ import { motion, useReducedMotion } from "motion/react";
 import MatrixRain from "./MatrixRain";
 
 const resumePath = "/Jahir_Williams_Web_Dev_Resume.pdf";
+const githubPath = "https://github.com/Jahir-tech";
 
 function Reveal({
   children,
@@ -63,6 +64,9 @@ export default function PortfolioHome() {
               <a className="button-secondary" href={resumePath} download>
                 Download resume <span aria-hidden="true">↗</span>
               </a>
+              <a className="button-secondary" href={githubPath} target="_blank" rel="noreferrer">
+                GitHub profile <span aria-hidden="true">↗</span>
+              </a>
             </div>
             <div className="hero-current">
               <span className="current-label">CURRENTLY</span>
@@ -76,23 +80,12 @@ export default function PortfolioHome() {
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.85, delay: 0.12, ease: [0.22, 1, 0.36, 1] }}
           >
-            <div className="terminal-shell">
-              <div className="terminal-bar">
-                <span className="terminal-lights"><i /><i /><i /></span>
-                <span>jahir@portfolio: ~/about</span>
-                <span className="terminal-index">SYS.01</span>
-              </div>
-              <div className="terminal-content">
-                <p><span className="terminal-prompt">$</span> whoami</p>
-                <h2>Jahir Williams</h2>
-                <p><span className="terminal-prompt">$</span> focus --now</p>
-                <ul>
-                  <li><span>01</span> Full-stack fundamentals</li>
-                  <li><span>02</span> Certification coursework</li>
-                  <li><span>03</span> Real-world practice</li>
-                </ul>
-                <div className="terminal-status"><span /> LEARNING MODE <span className="status-rule" /></div>
-              </div>
+            <div className="hero-portrait-frame">
+              <img
+                className="hero-portrait"
+                src="/images/about/jahir-williams-headshot.jpg"
+                alt="Portrait of Jahir Williams standing outdoors with arms crossed"
+              />
             </div>
             <span className="visual-caption">A WORK IN PROGRESS, BY DESIGN</span>
           </motion.div>
@@ -107,27 +100,12 @@ export default function PortfolioHome() {
               <p className="section-index">01 / SELECTED WORK</p>
               <h2 id="work-title">Built while learning.<br /><span>Improved with every pass.</span></h2>
             </div>
-            <p className="section-intro">A couple of active builds where I put new ideas into practice.</p>
+            <p className="section-intro">Four projects where I put new ideas into practice, from first HTML pages to full-stack builds.</p>
           </Reveal>
 
           <div className="project-grid">
-            <Reveal className="project-card project-card-featured" delay={0.06}>
-              <div className="project-topline"><span>PROJECT / 001</span><span className="project-state"><i /> IN PROGRESS</span></div>
-              <div className="project-art portfolio-art" aria-hidden="true">
-                <div className="art-grid-lines" />
-                <span className="art-monogram">JW<span>.</span></span>
-                <span className="art-label">PERSONAL WEB / 2026</span>
-                <span className="art-cursor" />
-              </div>
-              <div className="project-info">
-                <div className="project-title-row"><h3>Personal portfolio</h3><span>01</span></div>
-                <p>A home for my work, the skills I’m building, and the next steps in my developer journey.</p>
-                <div className="tag-row"><span>Next.js</span><span>TypeScript</span><span>Motion</span></div>
-              </div>
-            </Reveal>
-
             <Reveal className="project-card" delay={0.14}>
-              <div className="project-topline"><span>PROJECT / 002</span><span className="project-state project-state-muted"><i /> PROTOTYPE</span></div>
+              <div className="project-topline"><span>PROJECT / 001</span><span className="project-state project-state-muted"><i /> PROTOTYPE</span></div>
               <div className="project-art toolkit-art" aria-hidden="true">
                 <div className="toolkit-window">
                   <div className="toolkit-window-bar"><span /><span /><span /></div>
@@ -141,13 +119,59 @@ export default function PortfolioHome() {
                 <span className="art-label">AI WRITING / EXPLORATION</span>
               </div>
               <div className="project-info">
-                <div className="project-title-row"><h3>AI writing toolkit</h3><span>02</span></div>
+                <div className="project-title-row"><h3>AI writing toolkit</h3><span>01</span></div>
                 <p>A prototype exploring focused writing tools, simple input flows, and server-side content generation.</p>
                 <div className="tag-row"><span>React</span><span>API routes</span><span>OpenAI</span></div>
               </div>
             </Reveal>
+
+            <Reveal className="project-card" delay={0.22}>
+              <div className="project-topline"><span>PROJECT / 002</span><span className="project-state"><i /> COMPLETED</span></div>
+              <div className="project-art furniture-art" aria-hidden="true">
+                <div className="furniture-preview">
+                  <span className="furniture-kicker">ERAS / OUTDOOR LIVING</span>
+                  <span className="furniture-headline">Room to<br />unwind.</span>
+                  <span className="furniture-link">EXPLORE SERVICES <b>↘</b></span>
+                </div>
+                <span className="art-label">VIDEO HERO / IMAGE CARDS</span>
+              </div>
+              <div className="project-info">
+                <div className="project-title-row"><h3>Furniture &amp; landscape</h3><span>02</span></div>
+                <p>A responsive showcase built with semantic HTML and CSS, featuring a looping video hero, image-led service cards, smooth scrolling, and JavaScript reveal effects.</p>
+                <div className="tag-row"><span>HTML</span><span>CSS</span><span>JavaScript</span></div>
+                <a className="text-link" href="/furniture-website/index.html" target="_blank" rel="noreferrer">Open project <span aria-hidden="true">↗</span></a>
+              </div>
+            </Reveal>
+
+            <Reveal className="project-card" delay={0.3}>
+              <div className="project-topline"><span>PROJECT / 003</span><span className="project-state"><i /> COMPLETED</span></div>
+              <div className="project-art barbershop-art" aria-hidden="true">
+                <span className="barbershop-stamp">VINTAGE<br />BARBERSHOP</span>
+                <span className="art-label">SERVICE MENU / APPOINTMENT CALENDAR</span>
+              </div>
+              <div className="project-info">
+                <div className="project-title-row"><h3>Barbershop website</h3><span>03</span></div>
+                <p>A vintage-inspired shop site with JavaScript-rendered services, service detail modals, and an interactive appointment calendar with date and time selection.</p>
+                <div className="tag-row"><span>HTML</span><span>CSS</span><span>JavaScript</span></div>
+                <a className="text-link" href="/barbershop-website/index.html" target="_blank" rel="noreferrer">Open project <span aria-hidden="true">↗</span></a>
+              </div>
+            </Reveal>
+
+            <Reveal className="project-card" delay={0.38}>
+              <div className="project-topline"><span>PROJECT / 004</span><span className="project-state"><i /> COMPLETED</span></div>
+              <div className="project-art beans-art" aria-hidden="true">
+                <span className="beans-mark">THE BEANS<br />PLACE</span>
+                <span className="art-label">SINGLE-ORIGIN / COFFEE</span>
+              </div>
+              <div className="project-info">
+                <div className="project-title-row"><h3>The Beans Place</h3><span>04</span></div>
+                <p>A polished React coffee storefront with an animated hero, curated single-origin product catalog, and dedicated story and contact sections.</p>
+                <div className="tag-row"><span>React</span><span>Vite</span><span>Framer Motion</span></div>
+                <a className="text-link" href="/beans-place/index.html" target="_blank" rel="noreferrer">Open project <span aria-hidden="true">↗</span></a>
+              </div>
+            </Reveal>
           </div>
-          <p className="project-note"><span>*</span> Both builds are actively evolving. More projects will appear here as they’re ready to share.</p>
+          <p className="project-note"><span>*</span> Each project reflects a different step in my learning journey. More will appear here as they’re ready to share.</p>
         </div>
       </section>
 
@@ -156,18 +180,24 @@ export default function PortfolioHome() {
           <Reveal className="about-copy">
             <p className="section-index">02 / A LITTLE ABOUT ME</p>
             <h2 id="about-title">Curiosity is the<br /><span>starting point.</span></h2>
-            <p className="about-lead">I’m an entry-level full-stack developer currently in classes to complete my certifications.</p>
+            <p className="about-lead">My path into development started in trucking. I’m bringing that same focus, patience, and problem-solving mindset to building software.</p>
             <p className="about-body">I’m building my foundation one project at a time: learning how the pieces fit together, practicing clean interfaces, and getting more comfortable connecting frontends to real application logic.</p>
             <a className="text-link" href={resumePath} target="_blank" rel="noreferrer">Read my resume <span aria-hidden="true">↗</span></a>
           </Reveal>
-          <Reveal className="learning-panel" delay={0.1}>
-            <div className="learning-panel-head"><span>NOW.EXE</span><span className="live-light" /> ACTIVE</div>
-            <div className="learning-panel-main">
-              <span className="learning-overline">DEVELOPMENT LOG</span>
-              <p className="learning-quote">“Learn it.<br />Build it.<br /><em>Understand it.</em>”</p>
-              <div className="learning-track"><span /><span /><span /><span /><span /><span /><span /><span /><span /><span /><span /><span /></div>
-              <div className="learning-panel-foot"><span>CERTIFICATION COURSEWORK</span><span>IN PROGRESS</span></div>
-            </div>
+          <Reveal className="about-film" delay={0.1}>
+            <video
+              controls
+              autoPlay={!reduceMotion}
+              muted
+              loop
+              playsInline
+              preload="metadata"
+              aria-label="An animated truck travels through a city before a computer opens to code."
+            >
+              <source src="/videos/trucking-to-computing.mp4" type="video/mp4" />
+              Your browser does not support embedded video.
+            </video>
+            <p className="about-film-caption">FROM THE OPEN ROAD TO OPENING A CODE EDITOR</p>
           </Reveal>
         </div>
       </section>
