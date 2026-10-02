@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 
+const resumePath = "/Jahir_Williams_Web_Dev_Resume.pdf";
+
 const navigation = [
   { label: "Work", href: "#work" },
   { label: "About", href: "#about" },
@@ -39,11 +41,19 @@ export default function PortfolioHeader() {
           ))}
           <a
             className="nav-resume"
-            href="/Jahir_Williams_Web_Dev_Resume.pdf"
+            href={resumePath}
+            target="_blank"
+            rel="noreferrer"
+            onClick={() => setMenuOpen(false)}
+          >
+            Read resume <span aria-hidden="true">↗</span>
+          </a>
+          <a
+            href={resumePath}
             download
             onClick={() => setMenuOpen(false)}
           >
-            Resume <span aria-hidden="true">↗</span>
+            Download resume <span aria-hidden="true">↓</span>
           </a>
         </nav>
       </div>

@@ -1,6 +1,7 @@
 "use client";
 
-import { motion, useReducedMotion } from "motion/react";
+import { useEffect, useRef, useState } from "react";
+import { motion, useMotionValue, useReducedMotion, useSpring } from "motion/react";
 import MatrixRain from "./MatrixRain";
 
 const resumePath = "/Jahir_Williams_Web_Dev_Resume.pdf";
@@ -10,23 +11,97 @@ function Reveal({
   children,
   className = "",
   delay = 0,
+  direction = "up",
+  replayOnLeave = false,
 }: {
   children: React.ReactNode;
   className?: string;
   delay?: number;
+  direction?: "up" | "left" | "right";
+  replayOnLeave?: boolean;
 }) {
   const reduceMotion = useReducedMotion();
+  const initialPosition = direction === "left"
+    ? { x: -48, y: 0 }
+    : direction === "right"
+      ? { x: 48, y: 0 }
+      : { x: 0, y: 22 };
 
   return (
     <motion.div
       className={className}
-      initial={reduceMotion ? false : { opacity: 0, y: 22 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.18 }}
-      transition={{ duration: 0.58, delay, ease: [0.22, 1, 0.36, 1] }}
+      initial={reduceMotion ? false : { opacity: 0, ...initialPosition }}
+      whileInView={{ opacity: 1, x: 0, y: 0 }}
+      viewport={{
+        once: !replayOnLeave,
+        amount: replayOnLeave ? 0.24 : 0.18,
+        margin: replayOnLeave ? "0px 0px -96px 0px" : "0px",
+      }}
+      transition={{ duration: reduceMotion ? 0 : 0.62, delay: reduceMotion ? 0 : delay, ease: [0.22, 1, 0.36, 1] }}
     >
       {children}
     </motion.div>
+  );
+}
+
+function CursorOutline() {
+  const reduceMotion = useReducedMotion();
+  const pointerX = useMotionValue(-80);
+  const pointerY = useMotionValue(-80);
+  const springX = useSpring(pointerX, { stiffness: 520, damping: 42, mass: 0.3 });
+  const springY = useSpring(pointerY, { stiffness: 520, damping: 42, mass: 0.3 });
+  const [visible, setVisible] = useState(false);
+  const hasMoved = useRef(false);
+
+  useEffect(() => {
+    const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)");
+    if (!finePointer.matches) return;
+
+    document.body.classList.add("portfolio-cursor-active");
+
+    const handlePointerMove = (event: PointerEvent) => {
+      if (event.pointerType !== "mouse") return;
+      pointerX.set(event.clientX);
+      pointerY.set(event.clientY);
+      if (!hasMoved.current) {
+        hasMoved.current = true;
+        setVisible(true);
+      }
+    };
+    const handlePointerEnter = (event: PointerEvent) => {
+      if (event.pointerType !== "mouse") return;
+      pointerX.set(event.clientX);
+      pointerY.set(event.clientY);
+      hasMoved.current = true;
+      setVisible(true);
+    };
+    const restoreCursor = () => {
+      if (hasMoved.current) setVisible(true);
+    };
+    const hideCursor = () => setVisible(false);
+
+    window.addEventListener("pointermove", handlePointerMove);
+    window.addEventListener("focus", restoreCursor);
+    document.documentElement.addEventListener("pointerenter", handlePointerEnter);
+    document.documentElement.addEventListener("mouseleave", hideCursor);
+
+    return () => {
+      document.body.classList.remove("portfolio-cursor-active");
+      window.removeEventListener("pointermove", handlePointerMove);
+      window.removeEventListener("focus", restoreCursor);
+      document.documentElement.removeEventListener("pointerenter", handlePointerEnter);
+      document.documentElement.removeEventListener("mouseleave", hideCursor);
+    };
+  }, [pointerX, pointerY]);
+
+  return (
+    <motion.div
+      className="cursor-outline"
+      aria-hidden="true"
+      style={{ x: reduceMotion ? pointerX : springX, y: reduceMotion ? pointerY : springY }}
+      animate={{ opacity: visible ? 1 : 0, scale: visible ? 1 : 0.8 }}
+      transition={{ duration: reduceMotion ? 0 : 0.18 }}
+    />
   );
 }
 
@@ -41,6 +116,7 @@ export default function PortfolioHome() {
 
   return (
     <main id="top" className="portfolio-page">
+      <CursorOutline />
       <section className="hero-section" aria-labelledby="hero-title">
         <div className="hero-grid" aria-hidden="true" />
         <div className="matrix-window"><MatrixRain /></div>
@@ -177,14 +253,14 @@ export default function PortfolioHome() {
 
       <section className="about-section section-pad" id="about" aria-labelledby="about-title">
         <div className="content-width about-layout">
-          <Reveal className="about-copy">
+          <Reveal className="about-copy" direction="left" replayOnLeave>
             <p className="section-index">02 / A LITTLE ABOUT ME</p>
             <h2 id="about-title">Curiosity is the<br /><span>starting point.</span></h2>
-            <p className="about-lead">My path into development started in trucking. I’m bringing that same focus, patience, and problem-solving mindset to building software.</p>
-            <p className="about-body">I’m building my foundation one project at a time: learning how the pieces fit together, practicing clean interfaces, and getting more comfortable connecting frontends to real application logic.</p>
+            <p className="about-lead">My path into development wasn’t traditional. I served in the U.S. Army as a truck driver. After transitioning out, I earned my CDL and continued trucking for several years. That work reinforced discipline, independence, and patience, and taught me to keep moving when the route didn’t go according to plan.</p>
+            <p className="about-body">Eventually, I realized I wanted more than a career I could maintain; I wanted one I could keep building. Technology gave me that opportunity. Starting over doesn’t mean leaving my past behind. Each chapter gave me something I use today: the Army taught me discipline, trucking taught me independence, and software development gives me a place to create. Now I’m building my next chapter, one project at a time.</p>
             <a className="text-link" href={resumePath} target="_blank" rel="noreferrer">Read my resume <span aria-hidden="true">↗</span></a>
           </Reveal>
-          <Reveal className="about-film" delay={0.1}>
+          <Reveal className="about-film" direction="right" delay={0.12} replayOnLeave>
             <video
               controls
               autoPlay={!reduceMotion}
@@ -229,7 +305,13 @@ export default function PortfolioHome() {
           <Reveal className="contact-copy">
             <p className="section-index">04 / NEXT CONNECTION</p>
             <h2 id="contact-title">Let’s make<br />something <span>click.</span></h2>
-            <p>I’m growing my skills and looking forward to what comes next. My resume has the best way to reach me.</p>
+            <p>I’m growing my skills and looking forward to what comes next. Reach out or find me on GitHub.</p>
+            <address className="contact-details">
+              <a href="mailto:jahirwilliams12@gmail.com">jahirwilliams12@gmail.com</a>
+              <a href="tel:+12014105792">(201) 410-5792</a>
+              <span>Savannah, GA</span>
+              <a href={githubPath} target="_blank" rel="noreferrer">GitHub profile <span aria-hidden="true">↗</span></a>
+            </address>
             <a className="button-dark" href={resumePath} download>Download my resume <span aria-hidden="true">↗</span></a>
           </Reveal>
           <div className="contact-stamp" aria-hidden="true"><span>OPEN</span><span>TO</span><strong>WHAT’S<br />NEXT</strong><i>↗</i></div>
